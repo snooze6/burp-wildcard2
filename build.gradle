@@ -1,0 +1,27 @@
+plugins {
+    id "java"
+    id "idea"
+    id "org.jetbrains.intellij" version "0.4.21"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'net.portswigger.burp.extender:burp-extender-api:1.7.13'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'java'
+        }
+    }
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
