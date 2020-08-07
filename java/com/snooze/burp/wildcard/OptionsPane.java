@@ -23,7 +23,6 @@ public class OptionsPane {
     private TabManager tabManager;
 
     public OptionsPane() {
-
     }
 
     public void setup(){
@@ -31,41 +30,20 @@ public class OptionsPane {
         tabManager = new TabManager();
         Settings.tab_manager = tabManager;
 
-        btn_save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Settings.tab_title = textField1.getText();
-                saveConf();
-                BurpExtender.getInstance().stdout("Changing name to: "+Settings.tab_title);
-                BurpExtender.getInstance().changeName();
-            }
-        });
-
-        // Manually refresh tabs
-        btn_refresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reloadTabs();
-            }
-        });
-
         // Automagically refresh tabs
         panel1.addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
-                reloadTabs();
                 loadConf();
             }
 
             @Override
             public void ancestorRemoved(AncestorEvent event) {
-                reloadTabs();
                 loadConf();
             }
 
             @Override
             public void ancestorMoved(AncestorEvent event) {
-                reloadTabs();
                 loadConf();
             }
         });
@@ -73,6 +51,8 @@ public class OptionsPane {
         btn_add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                BurpExtender.getInstance().stdout("[Add click]");
+
                 int i = list_shown.getSelectedIndex();
                 tabManager.hide(i);
                 saveConf();
@@ -83,10 +63,28 @@ public class OptionsPane {
         btn_del.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                BurpExtender.getInstance().stdout("[Add click]");
+
                 int i = list_hidden.getSelectedIndex();
                 tabManager.show(i);
                 saveConf();
                 hideTabs();
+            }
+        });
+
+        btn_save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Settings.tab_title = textField1.getText();
+                BurpExtender.getInstance().changeName();
+            }
+        });
+
+        // Manually refresh tabs
+        btn_refresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadTabs();
             }
         });
 
@@ -127,23 +125,22 @@ public class OptionsPane {
     }
 
     public void saveConf(){
-        BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.name", Settings.tab_title);
         BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.hidden", Settings.tab_manager.toString());
     }
 
     public void loadConf(){
-//        String tabname = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
-//        Settings.tab_title = tabname;
 
         String hidden = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.hidden");
         Settings.tab_manager.fromString(hidden,getTabs());
 
         textField1.setText(Settings.tab_title);
 
+        BurpExtender.getInstance().stdout("Hidden: "+hidden);
+
         list_all.setModel(tabManager.model_all);
         list_hidden.setModel(tabManager.model_hidden);
         list_shown.setModel(tabManager.model_shown);
 
-        reloadTabs();
+//        reloadTabs();
     }
 }

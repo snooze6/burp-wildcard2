@@ -17,11 +17,13 @@ public class OptionsTab extends JPanel implements ITab {
 
     @Override
     public String getTabCaption() {
-        return "aaa";
+        BurpExtender.getInstance().stdout(Settings.tab_title);
+        return Settings.tab_title;
     }
 
     @Override
     public Component getUiComponent() {
+//        return new JPanel();
         return optionsTabPanel.panel1;
     }
 }

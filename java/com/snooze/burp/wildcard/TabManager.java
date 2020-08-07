@@ -93,6 +93,8 @@ public class TabManager {
         hidden.add(s);
         shown.remove(i);
 
+        BurpExtender.getInstance().stdout("Hiding: "+s);
+
         model_hidden.notifyListeners();
         model_shown.notifyListeners();
     }
@@ -101,6 +103,8 @@ public class TabManager {
         String s = hidden.get(i);
         shown.add(s);
         hidden.remove(i);
+
+        BurpExtender.getInstance().stdout("Show: "+s);
 
         model_hidden.notifyListeners();
         model_shown.notifyListeners();

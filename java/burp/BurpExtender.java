@@ -19,6 +19,8 @@ public class BurpExtender implements IBurpExtender
     {
         burpExtender = this; BurpExtenderCallbacks.callbacks = callbacks;
 
+        Settings.tab_title = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
+
         // Set names
         callbacks.setExtensionName(Settings.extension_name);
 //        Settings.tab_title =  BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
@@ -41,12 +43,12 @@ public class BurpExtender implements IBurpExtender
     }
 
     public void changeName(){
-        throw new UnsupportedOperationException();
+//        this.stdout("Changing name to: "+Settings.tab_title);
 
-//        BurpExtender.getInstance().stdout("Changing name to: "+Settings.tab_title);
-//
-//        BurpExtenderCallbacks.callbacks.removeSuiteTab(options);
-//        BurpExtenderCallbacks.callbacks.addSuiteTab(options);
+        BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.name", Settings.tab_title);
+
+        BurpExtenderCallbacks.callbacks.removeSuiteTab(options);
+        BurpExtenderCallbacks.callbacks.addSuiteTab(options);
     }
 
     public static BurpExtender getInstance(){
