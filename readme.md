@@ -24,7 +24,7 @@ Well, it is a matter of knowing who the parent of your Component is
 
 When you register a Tab in a burp extension the parent is the Burp's JTabbedPane so with a reference to it you can register, unregister and move tabs as you want. The following code is an example that uses this feature:
 
-``java
+```java
     ArrayList<String> tabs = new ArrayList<String>();
 
     JTabbedPane parent = (JTabbedPane) tabbedPane.getParent();
