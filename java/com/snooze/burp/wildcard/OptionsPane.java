@@ -94,6 +94,7 @@ public class OptionsPane {
                 Settings.tab_title = textField1.getText();
                 BurpExtender.getInstance().changeName();
                 optionsTab.reloadTab();
+                hideTabs();
             }
         });
 
@@ -102,6 +103,7 @@ public class OptionsPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 reloadTabs();
+//                showAll();
             }
         });
 
@@ -133,20 +135,16 @@ public class OptionsPane {
     }
 
     public void reloadTabs(){
-//        ArrayList<String> tabs = getTabs();
-//        if (tabs != null){
-//            tabManager.populate(tabs);
-//        }
-
-//        hideTabs();
-
-        showAll();
+        ArrayList<String> tabs = getTabs();
+        if (tabs != null){
+            tabManager.populate(tabs);
+        }
     }
 
     public void hideTabs(){
         ArrayList<String> tabs = new ArrayList<String>();
 
-        BurpExtender.getInstance().stdout("< hideTabs>");
+        //BurpExtender.getInstance().stdout("< hideTabs>");
 
         JTabbedPane parent = (JTabbedPane) tabbedPane.getParent();
 
@@ -158,13 +156,13 @@ public class OptionsPane {
                     tabName = parent.getTitleAt(i);
 
                     if (tabManager.hidden.contains(tabName)){
-                        BurpExtender.getInstance().stdout("[Hiding] "+tabName);
+                        //BurpExtender.getInstance().stdout("[Hiding] "+tabName);
 
                         Component c = parent.getComponentAt(i);
                         tabbedPane.addTab(tabName, c);
 
                     } else {
-                        BurpExtender.getInstance().stdout("[Not hidden] "+tabName);
+                        //BurpExtender.getInstance().stdout("[Not hidden] "+tabName);
                     }
 
                 } catch (Exception ex) {
@@ -172,10 +170,10 @@ public class OptionsPane {
                 }
             }
 
-            BurpExtender.getInstance().stdout("-- --");
-            BurpExtender.getInstance().stdout(tabManager.shown.toString());
-            BurpExtender.getInstance().stdout(tabManager.hidden.toString());
-            BurpExtender.getInstance().stdout("Tabs: "+tabbedPane.getTabCount());
+            //BurpExtender.getInstance().stdout("-- --");
+            //BurpExtender.getInstance().stdout(tabManager.shown.toString());
+            //BurpExtender.getInstance().stdout(tabManager.hidden.toString());
+            //BurpExtender.getInstance().stdout("Tabs: "+tabbedPane.getTabCount());
 
             //Unhide
             ArrayList<Component> cs = new ArrayList<>();
@@ -185,22 +183,21 @@ public class OptionsPane {
                 String tabName = null;
                 try {
                     tabName = tabbedPane.getTitleAt(i);
-                    BurpExtender.getInstance().stdout(tabName);
+                    //BurpExtender.getInstance().stdout(tabName);
 
                     if (tabManager.shown.contains(tabName)){
-                        BurpExtender.getInstance().stdout("[Showing] "+tabName);
+                        //BurpExtender.getInstance().stdout("[Showing] "+tabName);
 
                         cs.add(tabbedPane.getComponentAt(i));
                         cs_str.add(tabName);
-                        //parent.addTab(tabName, c);
 
                     } else {
-                        BurpExtender.getInstance().stdout("[Not shown] "+tabName);
+                        //BurpExtender.getInstance().stdout("[Not shown] "+tabName);
                     }
 
                 } catch (Exception ex) {
-                    BurpExtender.getInstance().stdout("Exception caught");
-                    ex.printStackTrace();
+                    //BurpExtender.getInstance().stdout("Exception caught");
+                    //ex.printStackTrace();
                 }
             }
             for (int i=0; i<cs.size(); i++){
@@ -210,7 +207,7 @@ public class OptionsPane {
             BurpExtender.getInstance().stdout("Parent is null");
         }
 
-        BurpExtender.getInstance().stdout("</hideTabs>");
+        //BurpExtender.getInstance().stdout("</hideTabs>");
     }
 
     public void saveConf(){
@@ -222,20 +219,11 @@ public class OptionsPane {
         String hidden = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.hidden");
         Settings.tab_manager.fromString(hidden,getTabs());
 
-//        BurpExtender.getInstance().stdout("Loading conf");
-//        BurpExtender.getInstance().stdout("Size "+tabManager.shown.size()+" - "+tabManager.shown.toString());
-//        BurpExtender.getInstance().stdout("Size "+tabManager.hidden.size()+" - "+tabManager.hidden.toString());
-//        BurpExtender.getInstance().stdout("Size "+tabManager.all.size()+" - "+tabManager.all.toString());
-//        BurpExtender.getInstance().stdout("Hidden '"+hidden+"'");
-
-
         textField1.setText(Settings.tab_title);
 
         list_all.setModel(tabManager.model_all);
         list_hidden.setModel(tabManager.model_hidden);
         list_shown.setModel(tabManager.model_shown);
-
-        //reloadTabs();
     }
 
     public void showAll(){

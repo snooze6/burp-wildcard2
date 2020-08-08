@@ -5,6 +5,7 @@ import burp.ITab;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class OptionsTab extends JPanel implements ITab {
 
@@ -33,32 +34,30 @@ public class OptionsTab extends JPanel implements ITab {
     }
 
     public void reloadTab(){
-        BurpExtender.getInstance().stdout("< First>");
-        printTabs();
-        BurpExtender.getInstance().stdout("</First>");
 
-        if (tabbedPane.getTabCount()>1) {
+        tabbedPane.remove(optionsTabPanel.panel1);
 
-            tabbedPane.remove(optionsTabPanel.panel1);
+        ArrayList<Component> cs = new ArrayList<>();
+        ArrayList<String> cs_str = new ArrayList<>();
 
-            for (int i = 0; i < tabbedPane.getTabCount() - 1; i++) {
-                Component a = tabbedPane.getComponentAt(0);
-                Component b = tabbedPane.getComponentAt(i);
-                tabbedPane.setComponentAt(0, b);
-                tabbedPane.setComponentAt(i, a);
-            }
-
-            tabbedPane.addTab(Settings.tab_title, optionsTabPanel.panel1);
-
-            Component a = tabbedPane.getComponentAt(0);
-            Component b = tabbedPane.getComponentAt(tabbedPane.getTabCount());
-            tabbedPane.setComponentAt(0, b);
-            tabbedPane.setComponentAt(tabbedPane.getTabCount(), a);
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+            cs.add(tabbedPane.getComponentAt(i));
+            cs_str.add(tabbedPane.getTitleAt(i));
         }
 
-        BurpExtender.getInstance().stdout("< Second>");
-        printTabs();
-        BurpExtender.getInstance().stdout("</Second>");
+        BurpExtender.getInstance().stdout("Tabs: "+cs_str.toString());
+
+        for (int i = 0; i < cs.size(); i++) {
+            tabbedPane.remove(cs.get(i));
+            BurpExtender.getInstance().stdout("Removing: "+cs_str.get(i));
+        }
+
+        tabbedPane.add(Settings.tab_title, optionsTabPanel.panel1);
+
+        for (int i = 0; i <cs.size(); i++) {
+            tabbedPane.add(cs_str.get(i), cs.get(i));
+            BurpExtender.getInstance().stdout("Adding: "+cs_str.get(i));
+        }
     }
 
     public void printTabs(){
