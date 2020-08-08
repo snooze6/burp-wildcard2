@@ -32,6 +32,14 @@ public class BurpExtender implements IBurpExtender
         options = new OptionsTab();
 
         callbacks.addSuiteTab(options);
+
+        BurpExtenderCallbacks.callbacks.registerExtensionStateListener(new IExtensionStateListener() {
+            @Override
+            public void extensionUnloaded() {
+                BurpExtender.getInstance().stdout("Unregistering extension");
+                options.showAll();
+            }
+        });
     }
 
     public void stdout(String s){

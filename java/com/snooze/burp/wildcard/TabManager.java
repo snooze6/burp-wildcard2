@@ -93,7 +93,7 @@ public class TabManager {
         hidden.add(s);
         shown.remove(i);
 
-        BurpExtender.getInstance().stdout("Hiding: "+s);
+        //BurpExtender.getInstance().stdout("Hiding: "+s);
 
         model_hidden.notifyListeners();
         model_shown.notifyListeners();
@@ -104,7 +104,7 @@ public class TabManager {
         shown.add(s);
         hidden.remove(i);
 
-        BurpExtender.getInstance().stdout("Show: "+s);
+        //BurpExtender.getInstance().stdout("Show: "+s);
 
         model_hidden.notifyListeners();
         model_shown.notifyListeners();
@@ -158,9 +158,15 @@ public class TabManager {
             this.setAll(all);
 
             ArrayList<String> hid = new ArrayList<String>();
-            String[] split = s.split(SEPARATOR);
-            for (String sp : split) {
-                hid.add(sp);
+            if (s.contains(SEPARATOR)) {
+                String[] split = s.split(SEPARATOR);
+                for (String sp : split) {
+                    hid.add(sp);
+                }
+            } else {
+                if (! s.isBlank()){
+                    hid.add(s);
+                }
             }
             this.setHidden(hid);
 
@@ -179,5 +185,16 @@ public class TabManager {
             }
             this.setShown(show);
         }
+    }
+
+    public void showAll(){
+        int size = hidden.size();
+        BurpExtender.getInstance().stdout(hidden.toString());
+        BurpExtender.getInstance().stdout(""+hidden.size());
+        for (int i=0; i<size; i++){
+            show(0);
+        }
+        BurpExtender.getInstance().stdout(hidden.toString());
+        BurpExtender.getInstance().stdout(""+hidden.size());
     }
 }
