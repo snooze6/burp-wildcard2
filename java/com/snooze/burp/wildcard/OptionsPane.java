@@ -102,8 +102,8 @@ public class OptionsPane {
         btn_refresh.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                showAll();
                 reloadTabs();
-//                showAll();
             }
         });
 
@@ -114,11 +114,14 @@ public class OptionsPane {
 
         JTabbedPane parent = (JTabbedPane) tabbedPane.getParent();
 
+        BurpExtender.getInstance().stdout("[Getting tabs]");
+
         if (parent!=null) {
             for (int i = 0; i < parent.getTabCount(); i++) {
                 String tabName = null;
                 try {
                     tabName = parent.getTitleAt(i);
+                    BurpExtender.getInstance().stdout(tabName);
                     if (!tabName.equals(Settings.tab_title)) {
                         tabs.add(tabName);
                     }

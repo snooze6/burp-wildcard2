@@ -45,18 +45,18 @@ public class OptionsTab extends JPanel implements ITab {
             cs_str.add(tabbedPane.getTitleAt(i));
         }
 
-        BurpExtender.getInstance().stdout("Tabs: "+cs_str.toString());
+        //BurpExtender.getInstance().stdout("Tabs: "+cs_str.toString());
 
         for (int i = 0; i < cs.size(); i++) {
             tabbedPane.remove(cs.get(i));
-            BurpExtender.getInstance().stdout("Removing: "+cs_str.get(i));
+            //BurpExtender.getInstance().stdout("Removing: "+cs_str.get(i));
         }
 
         tabbedPane.add(Settings.tab_title, optionsTabPanel.panel1);
 
         for (int i = 0; i <cs.size(); i++) {
             tabbedPane.add(cs_str.get(i), cs.get(i));
-            BurpExtender.getInstance().stdout("Adding: "+cs_str.get(i));
+            //BurpExtender.getInstance().stdout("Adding: "+cs_str.get(i));
         }
     }
 

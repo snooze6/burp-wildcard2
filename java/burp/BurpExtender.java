@@ -22,6 +22,8 @@ public class BurpExtender implements IBurpExtender
         String tabname = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
         if (tabname!=null) {
             Settings.tab_title = tabname;
+        } else {
+            BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.name", Settings.tab_title);
         }
 
         // Set names
@@ -41,6 +43,8 @@ public class BurpExtender implements IBurpExtender
             public void extensionUnloaded() {
                 BurpExtender.getInstance().stdout("Unregistering extension");
                 options.showAll();
+                //BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.name", null);
+                //BurpExtenderCallbacks.callbacks.saveExtensionSetting("com.snooze.burp.wildcard.hidden", null);
             }
         });
     }

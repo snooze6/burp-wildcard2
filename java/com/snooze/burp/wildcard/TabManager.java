@@ -197,4 +197,10 @@ public class TabManager {
         BurpExtender.getInstance().stdout(hidden.toString());
         BurpExtender.getInstance().stdout(""+hidden.size());
     }
+
+    public void clear(){
+        this.all.clear();
+        this.hidden.clear();
+        this.shown.clear();
+    }
 }
