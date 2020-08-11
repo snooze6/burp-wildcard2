@@ -19,7 +19,10 @@ public class BurpExtender implements IBurpExtender
     {
         burpExtender = this; BurpExtenderCallbacks.callbacks = callbacks;
 
-        Settings.tab_title = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
+        String tabname = BurpExtenderCallbacks.callbacks.loadExtensionSetting("com.snooze.burp.wildcard.name");
+        if (tabname!=null) {
+            Settings.tab_title = tabname;
+        }
 
         // Set names
         callbacks.setExtensionName(Settings.extension_name);
